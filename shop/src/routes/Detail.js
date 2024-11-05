@@ -1,13 +1,24 @@
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
-let YellowBtn = styled.button`
-  background: ${(props) => props.bg};
-  color: ${(props) => (props.bg == "blue" ? "white" : "black")};
-  padding: 10px;
-`;
-
 function Detail(props) {
+  useEffect(() => {
+    console.log("안녕");
+  });
+
+  const [count, setCount] = useState(0);
+  const [alert, setAlert] = useState(true);
+
+  useEffect(() => {
+    let timer = setTimeout(() => {
+      setAlert(false);
+    }, 2000);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, []);
+
   let { id } = useParams();
 
   const 찾은상품 = props.shoes.find((item) => {
@@ -16,9 +27,18 @@ function Detail(props) {
 
   return (
     <div className="container">
-      <YellowBtn bg="blue">버튼</YellowBtn>
-      <YellowBtn bg="orange">버튼</YellowBtn>
+      {alert === true ? (
+        <div className="alert alert-warning">2초이내 구매시 할인</div>
+      ) : null}
 
+      {count}
+      <button
+        onClick={() => {
+          setCount(count + 1);
+        }}
+      >
+        버튼
+      </button>
       <div className="row">
         <div className="col-md-6">
           <img src={찾은상품.url} width="100%" />

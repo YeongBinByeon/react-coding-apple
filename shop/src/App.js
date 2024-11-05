@@ -4,10 +4,13 @@ import { Navbar, Container, Nav } from "react-bootstrap";
 import { data } from "./data";
 import { Routes, Route, Link, useNavigate, Outlet } from "react-router-dom";
 import Detail from "./routes/Detail.js";
+import axios from "axios";
 
 function App() {
-  let [shoes] = useState(data);
+  let [shoes, setShoes] = useState(data);
   let navigate = useNavigate();
+  let [count, setCount] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   return (
     <div className="App">
@@ -46,6 +49,39 @@ function App() {
                   })}
                 </div>
               </div>
+              <button
+                onClick={async () => {
+                  setLoading(true);
+                  await sleep(1000);
+                  loading && <div>로딩ddddddddd중입니다.</div>;
+
+                  let url = "";
+                  url = {
+                    0: "https://codingapple1.github.io/shop/data2.json",
+                    1: "https://codingapple1.github.io/shop/data3.json",
+                  };
+
+                  if (count === 2) {
+                    alert("상품 더 없음");
+                  }
+
+                  axios
+                    .get(url[count])
+                    .then((결과) => {
+                      setShoes([...shoes, ...결과.data]);
+                      setCount(count + 1);
+                    })
+                    .catch(() => {
+                      console.log("실패함");
+                      setLoading(false);
+                    });
+                  // setLoading(false);
+                }}
+              >
+                더보기
+              </button>
+
+              {loading === true ? <div>로딩ddddddddd중입니다.</div> : ""}
             </>
           }
         />
@@ -54,6 +90,11 @@ function App() {
       </Routes>
     </div>
   );
+}
+
+function sleep(ms) {
+  const wakeUpTime = Date.now() + ms;
+  while (Date.now() < wakeUpTime) {}
 }
 
 function About() {
