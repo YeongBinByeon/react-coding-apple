@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import styled from "styled-components";
 import { Nav } from "react-bootstrap";
+import { Context1 } from "./../App.js";
 
 function Detail(props) {
+  let { 재고 } = useContext(Context1);
+
   useEffect(() => {
     console.log("안녕");
   });
@@ -60,7 +62,6 @@ function Detail(props) {
           <button className="btn btn-danger">주문하기</button>
         </div>
       </div>
-
       <Nav variant="tabs" defaultActiveKey="link0">
         <Nav.Item>
           <Nav.Link
@@ -100,6 +101,7 @@ function Detail(props) {
 
 function TabContent(props) {
   let [fade, setFade] = useState("");
+  let { 재고 } = useContext(Context1);
 
   useEffect(() => {
     let a = setTimeout(() => {
@@ -113,7 +115,7 @@ function TabContent(props) {
 
   return (
     <div className={`start ${fade}`}>
-      {[<div>내용0</div>, <div>내용1</div>, <div>내용2</div>][props.탭]}
+      {[<div>{재고}</div>, <div>내용1</div>, <div>내용2</div>][props.탭]}
     </div>
   );
 }
