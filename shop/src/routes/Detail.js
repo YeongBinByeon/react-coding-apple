@@ -1,11 +1,8 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Nav } from "react-bootstrap";
-import { Context1 } from "./../App.js";
 
 function Detail(props) {
-  let { 재고 } = useContext(Context1);
-
   useEffect(() => {
     console.log("안녕");
   });
@@ -101,7 +98,6 @@ function Detail(props) {
 
 function TabContent(props) {
   let [fade, setFade] = useState("");
-  let { 재고 } = useContext(Context1);
 
   useEffect(() => {
     let a = setTimeout(() => {
@@ -113,11 +109,7 @@ function TabContent(props) {
     };
   }, [props.탭]);
 
-  return (
-    <div className={`start ${fade}`}>
-      {[<div>{재고}</div>, <div>내용1</div>, <div>내용2</div>][props.탭]}
-    </div>
-  );
+  return <div className={`start ${fade}`}></div>;
 }
 
 export default Detail;
