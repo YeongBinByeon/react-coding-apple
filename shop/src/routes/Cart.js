@@ -1,19 +1,37 @@
 import { Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { changeName } from "../store";
+import { changeName, increase } from "../store/userSlice";
+import { increaseCount } from "../store";
+import { useEffect } from "react";
 
 function Cart() {
-  let cart = useSelector((state) => {
-    return state.카트_cart;
-  });
   let dispatch = useDispatch();
 
-  let user = useSelector((state) => {
-    return state.유저_user;
+  // dispatch(addItem());
+  // let cart = useSelector((state) => {
+  //   return state.카트_cart;
+  // });
+
+  // let user = useSelector((state) => {
+  //   return state.유저_user;
+  // });
+
+  let state = useSelector((state) => {
+    return state;
   });
 
   return (
     <div>
+      <h6>
+        {state.유저_user.name} {state.유저_user.age} 의 장바구니
+      </h6>
+      <button
+        onClick={() => {
+          dispatch(increase(10));
+        }}
+      >
+        버튼
+      </button>
       <Table>
         <thead>
           <tr>
@@ -24,17 +42,16 @@ function Cart() {
           </tr>
         </thead>
         <tbody>
-          {cart.map((item, index) => {
+          {state.카트_cart.map((item, index) => {
             return (
               <tr key={index}>
-                {user}
-                <td>{index}</td>
+                <td>{item.id}</td>
                 <td>{item.name}</td>
                 <td>{item.count}</td>
                 <td>
                   <button
                     onClick={() => {
-                      dispatch(changeName());
+                      dispatch(increaseCount({ itemId: item.id }));
                     }}
                   >
                     +

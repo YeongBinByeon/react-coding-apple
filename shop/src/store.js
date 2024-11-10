@@ -1,19 +1,6 @@
 import { configureStore, createSlice } from "@reduxjs/toolkit";
 
-// useState 역할
-let user = createSlice({
-  name: "user",
-  initialState: "kim",
-  reducers: {
-    changeName(state) {
-      // state는 기존 state를 뜻함
-      return "john " + state;
-    },
-    다른함수() {},
-  },
-});
-
-export let { changeName, 다른함수 } = user.actions;
+import user from "./store/userSlice";
 
 let cart = createSlice({
   name: "productList",
@@ -21,7 +8,26 @@ let cart = createSlice({
     { id: 0, name: "White and Black", count: 2 },
     { id: 1, name: "Grey Yordan", count: 1 },
   ],
+  reducers: {
+    increaseCount(state, action) {
+      let { itemId } = action.payload;
+      let searchedItem = state.find((item) => {
+        return item.id === itemId;
+      });
+      searchedItem.count += 1;
+    },
+    addItem(state, action) {
+      let temp = {
+        id: action.payload.id,
+        name: action.payload.title,
+        count: action.payload.id,
+      };
+      return [...state, temp];
+    },
+  },
 });
+
+export let { increaseCount, addItem } = cart.actions;
 
 export default configureStore({
   // 만든 slice는 reducer에 등록해야 함
