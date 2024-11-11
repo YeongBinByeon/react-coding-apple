@@ -7,14 +7,16 @@ import { addItem } from "../store";
 function Detail(props) {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    console.log("안녕");
-  });
-
   const [count, setCount] = useState(0);
   const [alert, setAlert] = useState(true);
   const [탭, 탭변경] = useState(0);
   const [fade2, setFade2] = useState("");
+
+  let { id } = useParams();
+
+  const 찾은상품 = props.shoes.find((item) => {
+    return parseInt(item.id) === parseInt(id);
+  });
 
   useEffect(() => {
     let timer = setTimeout(() => {
@@ -26,17 +28,28 @@ function Detail(props) {
   }, []);
 
   useEffect(() => {
+    var 꺼낸거 = JSON.parse(localStorage.getItem("watched"));
+
+    꺼낸거.push(찾은상품.id);
+    꺼낸거 = new Set(꺼낸거);
+    꺼낸거 = Array.from(꺼낸거);
+    // setTimeout(() => {}, 1100);
+    localStorage.setItem("watched", JSON.stringify(꺼낸거));
+  }, []);
+
+  // function setItemNumberInStorage(index) {
+  //   var watched = JSON.parse(localStorage.getItem("watched"));
+  //   watched.push();
+  //   // setTimeout(() => {}, 1100);
+  //   localStorage.setItem("watched", JSON.stringify(watched));
+  // }
+
+  useEffect(() => {
     setFade2("end");
     return () => {
       setFade2("");
     };
   }, []);
-
-  let { id } = useParams();
-
-  const 찾은상품 = props.shoes.find((item) => {
-    return parseInt(item.id) === parseInt(id);
-  });
 
   return (
     <div className={`container start ${fade2}`}>
