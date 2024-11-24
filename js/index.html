@@ -89,9 +89,15 @@
         if (id === undefined || id === null || id === "") {
           alert("id가 공백입니다.");
         }
+        if (!/\S+@\S+\.\S+/.test(id)) {
+          alert("이메일 형식에 맞지 않습니다.");
+        }
         let password = document.querySelector("#password").value;
         if (password === undefined || password === null || password === "") {
           alert("password가 공백입니다.");
+        }
+        if (!/[A-Z]/.test(password)) {
+          alert("password에 대문자 1개는 필수입니다.");
         }
       });
     </script>
