@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: shop
+  datasource:
+    url: jdbc:mysql://127.0.0.1:13306/house_batch
+    driver-class-name: com.mysql.jdbc.Driver  # 수정된 부분
+    username: house
+    password: house
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        show_sql: true
