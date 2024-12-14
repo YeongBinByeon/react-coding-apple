@@ -1,11 +1,15 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, Suspense, useEffect, useState, lazy } from "react";
 import "./App.css";
 import { Navbar, Container, Nav } from "react-bootstrap";
 import { data } from "./data";
 import { Routes, Route, Link, useNavigate, Outlet } from "react-router-dom";
-import Detail from "./routes/Detail.js";
+
 import axios from "axios";
-import Cart from "./routes/Cart.js";
+
+// import Detail from "./routes/Detail.js";
+// import Cart from "./routes/Cart.js";
+const Detail = lazy(() => import("./routes/Detail.js"));
+const Cart = lazy(() => import("./routes/Cart.js"));
 
 export let Context1 = createContext();
 
@@ -23,9 +27,9 @@ function App() {
 
   return (
     <div className="App">
-      <Navbar bg="dark" data-bs-theme="dark">
+      <Navbar bg="light" data-bs-theme="light">
         <Container>
-          <Navbar.Brand href="#home">Navbar</Navbar.Brand>
+          <Navbar.Brand href="#home">ShoeShop</Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link
               onClick={() => {
@@ -36,10 +40,10 @@ function App() {
             </Nav.Link>
             <Nav.Link
               onClick={() => {
-                navigate("/detail");
+                navigate("/cart");
               }}
             >
-              Detail
+              Cart
             </Nav.Link>
           </Nav>
         </Container>
@@ -94,9 +98,23 @@ function App() {
             </>
           }
         />
-        <Route path="/detail/:id" element={<Detail shoes={shoes} />} />
+        <Route
+          path="/detail/:id"
+          element={
+            <Suspense fallback={<div>로딩중임</div>}>
+              <Detail shoes={shoes} />
+            </Suspense>
+          }
+        />
 
-        <Route path="/cart" element={<Cart />} />
+        <Route
+          path="/cart"
+          element={
+            <Suspense fallback={<div>로딩중임</div>}>
+              <Cart />
+            </Suspense>
+          }
+        />
 
         <Route path="*" element={<div>없는페이지입니다.</div>} />
       </Routes>

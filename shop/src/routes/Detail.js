@@ -3,8 +3,12 @@ import { useParams } from "react-router-dom";
 import { Nav } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { addItem } from "../store";
+import { useLike } from "../hooks/like";
+import { useUsername } from "../hooks/name";
 
 function Detail(props) {
+  useLike();
+
   const dispatch = useDispatch();
 
   const [count, setCount] = useState(0);
@@ -51,6 +55,9 @@ function Detail(props) {
     };
   }, []);
 
+  let [like, addLike] = useLike();
+  const name = useUsername();
+
   return (
     <div className={`container start ${fade2}`}>
       {alert === true ? (
@@ -67,6 +74,15 @@ function Detail(props) {
       </button>
       <div className="row">
         <div className="col-md-6">
+          {name}
+          {like}{" "}
+          <span
+            onClick={() => {
+              addLike();
+            }}
+          >
+            ♡
+          </span>
           <img src={찾은상품.url} width="100%" />
         </div>
         <div className="col-md-6">

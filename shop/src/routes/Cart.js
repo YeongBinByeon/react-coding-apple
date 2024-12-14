@@ -2,19 +2,11 @@ import { Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { changeName, increase } from "../store/userSlice";
 import { increaseCount } from "../store";
-import { useEffect } from "react";
+import { memo, useEffect, useMemo, useState } from "react";
 
 function Cart() {
   let dispatch = useDispatch();
-
-  // dispatch(addItem());
-  // let cart = useSelector((state) => {
-  //   return state.카트_cart;
-  // });
-
-  // let user = useSelector((state) => {
-  //   return state.유저_user;
-  // });
+  let [count, setCount] = useState(0);
 
   let state = useSelector((state) => {
     return state;
