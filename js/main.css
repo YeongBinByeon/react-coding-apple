@@ -5,7 +5,6 @@
   border-radius: 5px;
 }
 
-
 .show-modal {
   display: none;
   /* opacity: 1; */
@@ -43,4 +42,18 @@
   background: white;
   border-radius: 5px;
   padding: 30px;
+}
+
+.slide-container {
+  width: 300vw;
+  transition: all 1s;
+}
+
+.slide-box {
+  width: 100vw;
+  float: left;
+}
+
+.slide-box img {
+  width: 100%;
 }

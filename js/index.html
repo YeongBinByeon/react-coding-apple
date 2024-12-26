@@ -67,9 +67,49 @@
       <button id="login" class="btn btn-danger">로그인</button>
     </div>
 
-    <div id="alert" class="alert alert-danger" style="display: block">
-      5초 이내 구매시 사은품 증정!
+    <div style="overflow: hidden">
+      <div class="slide-container">
+        <div class="slide-box">
+          <img src="car1.png" />
+        </div>
+        <div class="slide-box">
+          <img src="car2.png" />
+        </div>
+        <div class="slide-box">
+          <img src="car3.png" />
+        </div>
+      </div>
     </div>
+
+    <button class="slide-1">1</button>
+    <button class="slide-2">2</button>
+    <button class="slide-3">3</button>
+    <button class="next">다음</button>
+
+    <script>
+      var currentPicture = 1;
+      $(".next").on("click", function () {
+        $(".slide-container").css(
+          "transform",
+          `translateX(-${currentPicture}00vw)`
+        );
+        currentPicture += 1;
+      });
+
+      $(".slide-1").on("click", function () {
+        $(".slide-container").css("transform", "translateX(0vw)");
+      });
+      $(".slide-2").on("click", function () {
+        $(".slide-container").css("transform", "translateX(-100vw)");
+      });
+      $(".slide-3").on("click", function () {
+        $(".slide-container").css("transform", "translateX(-200vw)");
+      });
+    </script>
+
+    <!-- <div id="alert" class="alert alert-danger" style="display: block">
+      5초 이내 구매시 사은품 증정!
+    </div> -->
     <script>
       let time = 5;
       const intervalId = setInterval(function () {
