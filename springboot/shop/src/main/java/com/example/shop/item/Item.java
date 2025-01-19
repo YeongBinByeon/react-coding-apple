@@ -1,4 +1,4 @@
-package com.example.shop;
+package com.example.shop.item;
 
 import lombok.Getter;
 import lombok.Setter;
