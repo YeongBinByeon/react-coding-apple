@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequiredArgsConstructor
@@ -42,5 +43,32 @@ public class MemberController {
         CustomUser result = (CustomUser) auth.getPrincipal();
         System.out.println(result.displayName);
         return "mypage.html";
+    }
+
+    @GetMapping("/v1/user/1")
+    @ResponseBody
+    public MemberDto getUser(){
+        var a = memberRepository.findById(7L);
+        var result = a.get();
+        var data = new MemberDto(result.getUsername(), result.getDisplayName());
+        return data;
+    }
+
+    @GetMapping("/v2/user/1")
+    @ResponseBody
+    public MemberDto getUser2(){
+        var a = memberRepository.findById(7L);
+        var result = a.get();
+        var data = new MemberDto(result.getUsername(), result.getDisplayName());
+        return data;
+    }
+}
+
+class MemberDto {
+    public String username;
+    public String displayName;
+    MemberDto(String a, String b){
+        this.username = a;
+        this.displayName = b;
     }
 }
