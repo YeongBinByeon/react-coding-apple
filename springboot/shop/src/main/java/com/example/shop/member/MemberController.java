@@ -39,9 +39,8 @@ public class MemberController {
 
     @GetMapping("/my-page")
     public String mypage(Authentication auth){
-        System.out.println(auth);
-        System.out.println(auth.getName());
-        System.out.println(auth.isAuthenticated());
+        CustomUser result = (CustomUser) auth.getPrincipal();
+        System.out.println(result.displayName);
         return "mypage.html";
     }
 }
