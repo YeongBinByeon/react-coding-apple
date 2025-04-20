@@ -1,6 +1,7 @@
 package com.example.shop.member;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -29,5 +30,18 @@ public class MemberController {
         memberRepository.save(member);
 
         return "redirect:/list";
+    }
+
+    @GetMapping("/login")
+    public String login(){
+         return "login.html";
+    }
+
+    @GetMapping("/my-page")
+    public String mypage(Authentication auth){
+        System.out.println(auth);
+        System.out.println(auth.getName());
+        System.out.println(auth.isAuthenticated());
+        return "mypage.html";
     }
 }
