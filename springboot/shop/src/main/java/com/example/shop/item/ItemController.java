@@ -1,6 +1,8 @@
 package com.example.shop.item;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -76,7 +78,14 @@ public class ItemController {
         return "redirect:/list";
     }
 
+    @GetMapping("/list/page/{abc}")
+    String getListPage(Model model, @PathVariable Integer abc){
 
+        Page<Item> result = itemRepository.findPageBy(PageRequest.of(abc - 1,5)); // ()몇 번째 페이지, 페이지당 몇 개
+
+        model.addAttribute("items", result);
+        return "list.html";
+    }
 
 
 
