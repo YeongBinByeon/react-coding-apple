@@ -45,7 +45,6 @@ public class ItemController {
     @GetMapping("/detail/{id}")
     String detail(@PathVariable Long id, Model model){
         Optional<Item> result = itemRepository.findById(id);
-
         if(result.isPresent()){
             model.addAttribute("data", result.get());
 
