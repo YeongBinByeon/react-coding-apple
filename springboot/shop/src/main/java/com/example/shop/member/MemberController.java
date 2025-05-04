@@ -1,14 +1,19 @@
 package com.example.shop.member;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -16,6 +21,7 @@ public class MemberController {
 
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
     @GetMapping("/register")
     public String register() {
@@ -61,6 +67,42 @@ public class MemberController {
         var result = a.get();
         var data = new MemberDto(result.getUsername(), result.getDisplayName());
         return data;
+    }
+
+    @PostMapping("/login/jwt")
+    @ResponseBody
+    public String loginJWT(@RequestBody Map<String, String> data,
+                           HttpServletResponse response){
+
+        var authToken = new UsernamePasswordAuthenticationToken(
+                data.get("username"), data.get("password")
+        );
+        var auth = authenticationManagerBuilder.getObject().authenticate(authToken);
+        SecurityContextHolder.getContext().setAuthentication(auth);
+
+        var jwt = JwtUtil.createToken(SecurityContextHolder.getContext().getAuthentication());
+        System.out.println(jwt);
+
+        var cookie = new Cookie("jwt", jwt);
+        cookie.setMaxAge(10);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+
+        return jwt;
+    }
+
+    @GetMapping("/my-page/jwt")
+    @ResponseBody
+    String mypageJWT(Authentication auth){
+
+        var user = (CustomUser) auth.getPrincipal();
+
+        System.out.println(user);
+        System.out.println(user.displayName);
+        System.out.println(user.getAuthorities());
+
+        return "마이페이지데이터";
     }
 }
 
