@@ -3,6 +3,7 @@ package com.example.shop.sales;
 
 import com.example.shop.member.CustomUser;
 import com.example.shop.member.Member;
+import com.example.shop.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,7 @@ import java.util.List;
 public class SalesController {
 
     private final SalesRepository salesRepository;
+    private final MemberRepository memberRepository;
 
     @PostMapping("/order")
     String postOrder(@RequestParam String title,
@@ -40,8 +42,12 @@ public class SalesController {
 
     @GetMapping("/order/all")
     String getOrderAll(){
-        List<Sales> result = salesRepository.customFindAll();
-        System.out.println(result.get(0));
+//        List<Sales> result = salesRepository.customFindAll();
+//        System.out.println(result.get(0));
+
+        var result = memberRepository.findById(7L);
+        System.out.println(result.get().getSales());
+
         return "list.html";
     }
 }

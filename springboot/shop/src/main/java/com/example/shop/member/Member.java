@@ -1,10 +1,13 @@
 package com.example.shop.member;
 
+import com.example.shop.sales.Sales;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -20,4 +23,8 @@ public class Member {
     private String username;
     private String displayName;
     private String password;
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "member")
+    private List<Sales> sales = new ArrayList<>();
 }
