@@ -2,6 +2,7 @@ package com.example.shop.sales;
 
 
 import com.example.shop.member.CustomUser;
+import com.example.shop.member.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -27,7 +28,11 @@ public class SalesController {
         sales.setPrice(price);
         sales.setItemName(title);
         CustomUser user = (CustomUser) auth.getPrincipal();
-//        sales.setMemberId(user.id);
+
+        var member = new Member();
+        member.setId(user.id);
+        sales.setMember(member);
+
         salesRepository.save(sales);
 
         return "list.html";
@@ -35,7 +40,7 @@ public class SalesController {
 
     @GetMapping("/order/all")
     String getOrderAll(){
-        List<Sales> result = salesRepository.findAll();
+        List<Sales> result = salesRepository.customFindAll();
         System.out.println(result.get(0));
         return "list.html";
     }
