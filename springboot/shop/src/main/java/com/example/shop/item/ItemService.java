@@ -13,6 +13,7 @@ public class ItemService {
         Item item = new Item();
         item.setTitle(title);
         item.setPrice(price);
+        item.setCount(10);
         itemRepository.save(item);
     }
 }

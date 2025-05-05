@@ -1,6 +1,7 @@
 package com.example.shop.sales;
 
 
+import com.example.shop.item.ItemRepository;
 import com.example.shop.member.CustomUser;
 import com.example.shop.member.Member;
 import com.example.shop.member.MemberRepository;
@@ -17,28 +18,22 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SalesController {
 
-    private final SalesRepository salesRepository;
+    private final SalesService salesService;
     private final MemberRepository memberRepository;
+
 
     @PostMapping("/order")
     String postOrder(@RequestParam String title,
                      @RequestParam Integer price,
                      @RequestParam Integer count,
+                     @RequestParam Long id,
                      Authentication auth){
-        Sales sales = new Sales();
-        sales.setCount(count);
-        sales.setPrice(price);
-        sales.setItemName(title);
-        CustomUser user = (CustomUser) auth.getPrincipal();
 
-        var member = new Member();
-        member.setId(user.id);
-        sales.setMember(member);
-
-        salesRepository.save(sales);
+        salesService.addSales(title, price, count, id, auth);
 
         return "list.html";
     }
+
 
     @GetMapping("/order/all")
     String getOrderAll(){
